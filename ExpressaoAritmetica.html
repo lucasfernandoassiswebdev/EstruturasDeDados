@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <label for="txtExpressao">Digite a expressão:</label>
+    <input type="text" id="txtExpressao">
+    <button type="button" onclick="AvaliaExpressao()">Avaliar</button>
+
+    <script>
+        var caracteresAbrem = ["(", "[", "{"],
+            caracteresFecham = [")", "]", "}"],
+            caracteresQueAbremExpressao = [],
+            caracterQueFecha;
+
+        String.prototype.isNotNumber = function () {
+            return /^-?[\d.]+(?:e-?\d+)?$/.test(this);
+        }
+
+        function AvaliaExpressao() {
+            var valorDigitado = document.getElementById("txtExpressao").value.replace(/[+ - - * /]/g, ''),
+                arrayCaracteres = [],
+                caracteresEncontrados = [],
+                caracteresQueAbremExpressao = [],
+                caracteresQueFechamExpressao = [],
+                paraLooping = false;
+
+            for (var i = 0; i < valorDigitado.length; i++)
+                arrayCaracteres.push(valorDigitado.substring(i, i + 1));
+
+            arrayCaracteres.forEach(function (caracter) {
+                if (caracter.isNotNumber)
+                    caracteresEncontrados.push(caracter);
+            });
+
+            if (caracteresEncontrados.length == 0) {
+                AlertaErro();
+                return;
+            }
+
+            caracteresEncontrados.forEach(function (caracter) {
+                caracteresFecham.forEach(function (caracterFecha) {
+                    if (caracter == caracterFecha) 
+                        caracteresQueFechamExpressao.push(caracterFecha);                    
+                });
+            });
+
+            caracteresEncontrados.forEach(function (caracter) {
+                caracteresAbrem.forEach(function (caracterAbre, index) {
+                    if (caracter == caracterAbre)
+                        caracteresQueAbremExpressao.push({
+                            caracter: caracter,
+                            index: index
+                        });
+                });
+
+                caracteresFecham.forEach(function (caracterFecha) {
+                    if (caracter == caracterFecha) {
+                        caracter == caracteresFecham[caracteresQueAbremExpressao[caracteresQueAbremExpressao.length - 1].index]
+                        caracteresQueFechamExpressao.pop();
+                        caracteresQueAbremExpressao.pop();
+                    }
+                });
+            });
+
+            if(caracteresQueAbremExpressao.length == 0 && caracteresQueAbremExpressao.length == 0)
+                alert("A expressão está correta!");
+            else
+                AlertaErro();
+        }
+
+        function AlertaErro() {
+            alert("Sua expressão está errada!");
+        }
+    </script>
+</body>
+
+</html>

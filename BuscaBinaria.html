@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="number" id="numero" placeholder="Digite o numero a ser procurado" />
+    <button type="button" onclick="BuscaItem()">Buscar</button>
+
+    <script>
+        var vetor = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+            tamanhoVetor = vetor.length,
+            tamanhoVetorAntigo = vetor.length,
+            meioVetor = Math.round(tamanhoVetor / 2);
+
+        function BuscaItem() {
+            var numeroBuscado = parseInt(document.getElementById("numero").value)
+
+            if ((meioVetor == 0 || meioVetor == tamanhoVetorAntigo) && vetor[meioVetor] != numeroBuscado)
+                alert("O numero buscado não estava no vetor!");
+            else {
+                if (vetor[meioVetor] == numeroBuscado) {
+                    alert("O numero encontrado estava no índice " + meioVetor + " do vetor");
+                    return;
+                }
+
+                if (vetor[meioVetor] > numeroBuscado) {
+                    tamanhoVetor = meioVetor;
+                    meioVetor = Math.round(meioVetor / 2);
+
+                    if (vetor[meioVetor] == numeroBuscado) {
+                        alert("O numero encontrado estava no índice " + meioVetor + " do vetor");
+                        return;
+                    }
+                }
+
+                if (vetor[meioVetor] < numeroBuscado) {
+                    if (tamanhoVetor == meioVetor)
+                        tamanhoVetor += 1;
+
+                    meioVetor = Math.round((meioVetor + tamanhoVetor) / 2);
+                    tamanhoVetor = meioVetor;
+
+                    if (vetor[meioVetor] == numeroBuscado) {
+                        alert("O numero encontrado estava no índice " + meioVetor + " do vetor");
+                        return;
+                    }
+                }
+
+                BuscaItem();
+            }
+        }
+    </script>
+</body>
+
+</html>

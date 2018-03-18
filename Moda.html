@@ -1,0 +1,56 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        var vetor = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 12, 12, 13, 13, 13, 13], atuais = [], moda, acm = 0;
+
+        vetor.forEach(function (item) {
+            var encontrado = false;
+
+
+            if (atuais.length > 0)
+                atuais.forEach(function (atual) {
+                    if (item == atual.valor) {
+                        atual.quantidade += 1;
+                        encontrado = true;
+                    }
+                });
+
+            if (!encontrado)
+                atuais.push({
+                    valor: item,
+                    quantidade: 1
+                });
+        });
+
+        moda = atuais[0];
+
+        //Buscando a moda
+        atuais.forEach(function (objeto, index) {
+            if (objeto.quantidade > moda.quantidade && index > 0)
+                moda = objeto;
+        });
+
+        //Verificando se relmente é a moda
+        atuais.forEach(function (objeto) {
+            if (moda.quantidade == objeto.quantidade)
+                acm++;
+        });
+
+        if (acm > 1)
+            alert("Não tem moda!");
+        else
+            alert("A moda é: " + moda.valor);
+
+    </script>
+</body>
+
+</html>
